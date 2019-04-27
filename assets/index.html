@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Word Guess Game</title>
+</head>
+
+<body>
+
+  <h1>The Psychic Game</h1>
+  <p> Guess what letter I'm thinking of</p>
+
+
+  <!-- // Displays wins, losses, guesses left, and letters guessed. -->
+  <p>wins: <span id="wins">0</span></p>
+  <p>losses: <span id="losses">0</span></p>
+  <p>guesses left: <span id="guesses-left"></span></p>
+  <p>your guesses so far: <span id="guessed-letters"></span></p>
+
+
+  <script>
+
+    // VARIABLES 
+    // ==========================================================================
+
+    // Your Guesses So Far: (the specific letters that the user typed. Display these until the user either wins or loses.)
+
+    // GLOBAL VARIABLES =========================================================
+    // Losses recorded.
+    var losses = 0;
+
+    // Wins recorded.
+    var wins = 0;
+
+    // Guesses left.
+    var guessesLeft = 10;
+
+    // Guessed letters.
+    var guessedLetters = [];
+
+    // Creates an array that lists out all of the options (letters "a" - "z").
+    var computerChoices = ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "k", "l", "z", "x", "c", "v", "b", "n", "m"];
+
+    // Variables that hold references to where we want to display info.
+    var lossesText = document.getElementById("losses");
+    var winsText = document.getElementById("wins");
+    document.getElementById("guesses-left").innerHTML = guessesLeft;
+
+    // Randomly chooses a choice from the options array. This is the Computer's guess.
+    var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+    console.log(computerGuess);
+
+    // FUNCTIONS ==============================================================
+
+    // Function used to reset guesses after all guesses used.
+    function resetGuess() {
+      computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
+      console.log(computerGuess);
+      guessedLetters = [];
+    }
+
+    // Displays letters guessed into "your guesses so far:"
+    function letterList() {
+      document.getElementById('guessed-letters').innerHTML = guessedLetters;
+    }
+
+    // This function is run whenever the user presses a key.
+    document.onkeyup = function (event) {
+      // Determines which key was pressed.
+      var userGuess = event.key;
+      guessedLetters.push(userGuess);
+
+      // This logic determines the outcome of the wins/losses and adds increment to wins or losses.
+      if (userGuess === computerGuess) {
+        wins++;
+        document.getElementById("wins").innerHTML = wins;
+        // Alerts the key the user pressed (userGuess).
+        alert("User guess: " + userGuess);
+        alert("Computer guess: " + computerGuess);
+        resetGuess()
+      } else if (userGuess !== computerChoices) {
+        alert("User guess: " + userGuess);
+        alert("Computer guess: " + computerGuess);
+      }
+      // Shows letter guessed
+      letterList();
+
+      // Displays guesses left.
+      guessesLeft--;
+      document.getElementById("guesses-left").innerHTML = guessesLeft;
+
+      // When guesses run out, reset guesses left to 10
+      if (guessesLeft === 0) {
+        guessesLeft = 10;
+        losses++;
+        document.getElementById("losses").innerHTML = losses;
+        resetGuess()
+      }
+
+    }
+
+  </script>
+
+</body>
+
+</html>
